@@ -1,5 +1,6 @@
 /* eslint-disable no-alert */
 // eslint-disable-next-line import/no-unresolved
+require('./demo');
 import { saveAs } from 'file-saver';
 import {
   Editor,

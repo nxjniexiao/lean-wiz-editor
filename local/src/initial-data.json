@@ -1,0 +1,84 @@
+{
+  "blocks": [
+    {
+      "id": "_DQEyzjQO",
+      "type": "text",
+      "text": [
+        {
+          "insert": "分享"
+        }
+      ],
+      "heading": 1
+    },
+    {
+      "text": [
+        {
+          "insert": "概要"
+        }
+      ],
+      "id": "_H36enptu",
+      "type": "text",
+      "heading": 1
+    },
+    {
+      "text": [
+        {
+          "insert": "这是一篇分享文章2"
+        }
+      ],
+      "id": "_4KUwn82T",
+      "type": "text"
+    },
+    {
+      "text": [],
+      "id": "_0LpNsaWU",
+      "type": "code",
+      "children": [
+        "_b3rpZFhQ"
+      ],
+      "language": "HTML",
+      "disableWrap": false,
+      "code": "",
+      "quoted": false,
+      "abstract": ""
+    },
+    {
+      "text": [],
+      "id": "_sz7iDFbj",
+      "type": "text"
+    }
+  ],
+  "comments": {},
+  "meta": {},
+  "_b3rpZFhQ": [
+    {
+      "text": [
+        {
+          "insert": "<div id=\"main\">"
+        }
+      ],
+      "id": "_FNyZvJAp",
+      "type": "code-line"
+    },
+    {
+      "text": [
+        {
+          "insert": "    <span class=\"text\"></span>"
+        }
+      ],
+      "id": "_z5iOFLd6",
+      "type": "code-line"
+    },
+    {
+      "text": [
+        {
+          "insert": "</div>"
+        }
+      ],
+      "id": "_GyHC0XV3",
+      "type": "code-line",
+      "quoted": false,
+      "abstract": ""
+    }
+  ]
+}
