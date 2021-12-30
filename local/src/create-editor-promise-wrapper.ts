@@ -33,15 +33,27 @@ const user1 = {
 function handleSave(editor: Editor, data: any) {
   console.log(JSON.stringify(data, null, 2));
   const text = docData2Text(data);
-  console.log('------------------- document text --------------------');
+  console.log('------------------- docData2Text(data) --------------------');
   console.log(text);
+  console.log('------------------------------------------------------');
+  const html = editor.toHtml(); // 转换为 html 文件的内容
+  console.log('------------------- editor.toHtml() --------------------');
+  console.log(html);
+  console.log('------------------------------------------------------');
+  const md = editor.toMarkdown(); // 转换为 md 文件的内容
+  console.log('------------------- editor.toMarkdown() --------------------');
+  console.log(md);
+  console.log('------------------------------------------------------');
+  const plainText = editor.toPlainText(); // 转换为 text 文件的内容
+  console.log('------------------- editor.toPlainText() --------------------');
+  console.log(plainText);
   console.log('------------------------------------------------------');
 }
 
 export async function createEditorPromiseWrapper(
   element?: HTMLElement,
   _options?: Partial<EditorOptions>,
-  _auth?: Partial<EditorOptions>
+  _auth?: Partial<AuthMessage>
 ) {
   if (!element) return;
   _options = _options || {};
@@ -53,9 +65,10 @@ export async function createEditorPromiseWrapper(
     serverUrl: '',
     placeholder: 'Please enter document title',
     // markdownOnly: true,
-    lineNumber: true,
-    titleInEditor: true,
-    hideComments: true,
+    lineNumber: false, // 隐藏行号
+    titleInEditor: false, // 取消标题
+    hideComments: true, // 隐藏评论
+    disableMindmap: true, // 禁用 mind map
     ..._options,
     callbacks: {
       onSave: handleSave,
