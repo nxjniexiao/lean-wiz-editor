@@ -69,6 +69,9 @@ export async function createEditorPromiseWrapper(
     titleInEditor: false, // 取消标题
     hideComments: true, // 隐藏评论
     disableMindmap: true, // 禁用 mind map
+    hideBlockMenuButton: true, // 隐藏左侧菜单按钮
+    // hideBlockMenu: true, // ???
+    hideBlockIcon: true, // 隐藏左侧图标
     ..._options,
     callbacks: {
       onSave: handleSave,
