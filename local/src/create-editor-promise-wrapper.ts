@@ -31,22 +31,23 @@ const user1 = {
 };
 
 function handleSave(editor: Editor, data: any) {
-  console.log(JSON.stringify(data, null, 2));
+  console.log("🚀 ~ file: create-editor-promise-wrapper.ts ~ line 34 ~ handleSave ~ editor", editor)
+  // console.log(JSON.stringify(data, null, 2));
   const text = docData2Text(data);
   console.log('------------------- docData2Text(data) --------------------');
-  console.log(text);
+  // console.log(text);
   console.log('------------------------------------------------------');
   const html = editor.toHtml(); // 转换为 html 文件的内容
   console.log('------------------- editor.toHtml() --------------------');
-  console.log(html);
+  // console.log(html);
   console.log('------------------------------------------------------');
   const md = editor.toMarkdown(); // 转换为 md 文件的内容
   console.log('------------------- editor.toMarkdown() --------------------');
-  console.log(md);
+  // console.log(md);
   console.log('------------------------------------------------------');
   const plainText = editor.toPlainText(); // 转换为 text 文件的内容
   console.log('------------------- editor.toPlainText() --------------------');
-  console.log(plainText);
+  // console.log(plainText);
   console.log('------------------------------------------------------');
 }
 

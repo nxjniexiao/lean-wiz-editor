@@ -26,7 +26,11 @@ createEditorPromiseWrapper(
     initLocalData: markdownData,
   },
   { permission: 'w' }
-);
+).then((editor) => {
+  setTimeout(() => {
+    editor?.loadLocalData(markdownData);
+  }, 3000);
+});
 
 // 测试 html
 const htmlData = wizEditorClient.html2Doc(htmlString, {
@@ -42,6 +46,7 @@ createEditorPromiseWrapper(
 );
 
 // TODO: 测试api
+// editor.genId()
 // editor.toHtml()
 // html2Doc
 // markdown2Doc
