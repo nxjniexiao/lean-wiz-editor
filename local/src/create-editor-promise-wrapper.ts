@@ -3,6 +3,7 @@
 import { saveAs } from 'file-saver';
 import {
   Editor,
+  createEditor,
   createEditorPromise,
   assert,
   BlockElement,
@@ -31,7 +32,6 @@ const user1 = {
 };
 
 function handleSave(editor: Editor, data: any) {
-  console.log("🚀 ~ file: create-editor-promise-wrapper.ts ~ line 34 ~ handleSave ~ editor", editor)
   // console.log(JSON.stringify(data, null, 2));
   const text = docData2Text(data);
   console.log('------------------- docData2Text(data) --------------------');
@@ -49,6 +49,42 @@ function handleSave(editor: Editor, data: any) {
   console.log('------------------- editor.toPlainText() --------------------');
   // console.log(plainText);
   console.log('------------------------------------------------------');
+}
+
+function handleLoad(editor: Editor, data: any) {
+  console.log('handle load...');
+}
+
+function handleBlur(editor: Editor, data: any) {
+  console.log('handle blur...');
+}
+
+function handleChange(editor: Editor) {
+  console.log('handle change...');
+}
+
+function handleSaveImage(editor: Editor, image: HTMLImageElement) {
+  console.log('handle save image...');
+}
+
+function handleBeforePaste(editor: Editor, event: ClipboardEvent) {
+  console.log('handle before paste...');
+  console.log(event);
+  editor.insertImage(null, 'https://www.bing.com/th?id=OHR.SaCalobra_ZH-CN0945855556_1920x1080.jpg&rf=LaDigue_1920x1080.jpg', -2);
+  return true;
+}
+
+function handleAfterPaste(editor: Editor, event: ClipboardEvent) {
+  console.log('handle after paste...');
+  console.log(event);
+}
+
+function handleBlockFocusChanged(
+  editor: Editor,
+  block: BlockElement,
+  focused: boolean
+) {
+  console.log('handle block focus changed...');
 }
 
 export async function createEditorPromiseWrapper(
@@ -70,12 +106,19 @@ export async function createEditorPromiseWrapper(
     titleInEditor: false, // 取消标题
     hideComments: true, // 隐藏评论
     disableMindmap: true, // 禁用 mind map
-    hideBlockMenuButton: true, // 隐藏左侧菜单按钮
+    hideBlockMenuButton: false, // 隐藏左侧菜单按钮
     // hideBlockMenu: true, // ???
     hideBlockIcon: true, // 隐藏左侧图标
     ..._options,
     callbacks: {
       onSave: handleSave,
+      onLoad: handleLoad,
+      onBlur: handleBlur,
+      onChange: handleChange,
+      onSaveImage: handleSaveImage,
+      onBeforePaste: handleBeforePaste,
+      onAfterPaste: handleAfterPaste,
+      onBlockFocusChanged: handleBlockFocusChanged,
       ...(_options?.callbacks || {}),
     },
   };
@@ -89,6 +132,7 @@ export async function createEditorPromiseWrapper(
     ..._auth,
   };
 
-  const editor = await createEditorPromise(element, options, auth);
+  console.log('before create');
+  const editor = createEditor(element, options, auth);
   return editor;
 }

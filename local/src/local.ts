@@ -145,6 +145,6 @@ async function loadDocument(element: HTMLElement, docId: string, initLocalData?:
   return editor;
 }
 
-loadDocument(document.getElementById('editor') as HTMLElement, '').then((editor) => {
-  replaceUrl(editor.auth.docId);
-});
+// loadDocument(document.getElementById('editor') as HTMLElement, '').then((editor) => {
+//   replaceUrl(editor.auth.docId);
+// });

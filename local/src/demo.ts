@@ -9,41 +9,41 @@ createEditorPromiseWrapper(document.querySelector('#editor-2') as HTMLElement, {
 });
 
 // 测试 text
-const textData = wizEditorClient.text2doc('???');
-createEditorPromiseWrapper(
-  document.querySelector('#node-1') as HTMLElement,
-  {
-    initLocalData: textData,
-  },
-  { permission: 'w' }
-);
+// const textData = wizEditorClient.text2doc('???');
+// createEditorPromiseWrapper(
+//   document.querySelector('#node-1') as HTMLElement,
+//   {
+//     initLocalData: textData,
+//   },
+//   { permission: 'w' }
+// );
 
 // 测试markdown
-const markdownData = wizEditorClient.markdown2Doc(markdownString);
-createEditorPromiseWrapper(
-  document.querySelector('#node-2') as HTMLElement,
-  {
-    initLocalData: markdownData,
-  },
-  { permission: 'w' }
-).then((editor) => {
-  setTimeout(() => {
-    editor?.loadLocalData(markdownData);
-  }, 3000);
-});
+// const markdownData = wizEditorClient.markdown2Doc(markdownString);
+// createEditorPromiseWrapper(
+//   document.querySelector('#node-2') as HTMLElement,
+//   {
+//     initLocalData: markdownData,
+//   },
+//   { permission: 'w' }
+// ).then((editor) => {
+//   setTimeout(() => {
+//     editor?.loadLocalData(markdownData);
+//   }, 3000);
+// });
 
 // 测试 html
-const htmlData = wizEditorClient.html2Doc(htmlString, {
-  convertList: false,
-  convertFont: false,
-});
-createEditorPromiseWrapper(
-  document.querySelector('#node-3') as HTMLElement,
-  {
-    initLocalData: htmlData,
-  },
-  { permission: 'w' }
-);
+// const htmlData = wizEditorClient.html2Doc(htmlString, {
+//   convertList: false,
+//   convertFont: false,
+// });
+// createEditorPromiseWrapper(
+//   document.querySelector('#node-3') as HTMLElement,
+//   {
+//     initLocalData: htmlData,
+//   },
+//   { permission: 'w' }
+// );
 
 // TODO: 测试api
 // editor.genId()
