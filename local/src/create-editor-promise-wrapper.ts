@@ -18,6 +18,7 @@ import {
   OnProgress,
   EditorOptions,
   SelectionDetail,
+  FileBoxData,
   EditorDoc,
 } from 'wiz-editor/client';
 import * as wizEditorClient from 'wiz-editor/client';
@@ -70,13 +71,42 @@ function handleSaveImage(editor: Editor, image: HTMLImageElement) {
 function handleBeforePaste(editor: Editor, event: ClipboardEvent) {
   console.log('handle before paste...');
   console.log(event);
-  editor.insertImage(null, 'https://www.bing.com/th?id=OHR.SaCalobra_ZH-CN0945855556_1920x1080.jpg&rf=LaDigue_1920x1080.jpg', -2);
-  return true;
+  const data = event.clipboardData;
+  const isPasteImage =
+    data?.items?.length === 1 && data.items[0]?.type === 'image/png';
+  if (isPasteImage) {
+    editor.insertImage(
+      null,
+      'https://www.bing.com/th?id=OHR.SaCalobra_ZH-CN0945855556_1920x1080.jpg&rf=LaDigue_1920x1080.jpg',
+      -2
+    );
+    return true; // 阻止默认行为
+  }
+  return false;
 }
 
 function handleAfterPaste(editor: Editor, event: ClipboardEvent) {
   console.log('handle after paste...');
   console.log(event);
+}
+
+function handleFileInserted(
+  editor: Editor,
+  boxData: FileBoxData,
+  block: BlockElement,
+  pos: number
+) {
+  console.log('handle file inserted...');
+  console.log(arguments);
+}
+
+function handleInsertOfficeMenuClicked(
+  editor: Editor,
+  block: BlockElement,
+  offset: number,
+  source: 'BlockMenu' | 'QuickInsert'
+) {
+  console.log('handle insert office menu clicked...');
 }
 
 function handleBlockFocusChanged(
@@ -97,6 +127,7 @@ export async function createEditorPromiseWrapper(
   _auth = _auth || {};
 
   const options: EditorOptions = {
+    lang: 'zh-CN',
     local: true,
     initLocalData: undefined,
     serverUrl: '',
@@ -109,6 +140,7 @@ export async function createEditorPromiseWrapper(
     hideBlockMenuButton: false, // 隐藏左侧菜单按钮
     // hideBlockMenu: true, // ???
     hideBlockIcon: true, // 隐藏左侧图标
+    // allowedWebPages: [], // 允许插入的网页类型，为[]时，网页分类标签仍然显示。
     ..._options,
     callbacks: {
       onSave: handleSave,
@@ -118,6 +150,8 @@ export async function createEditorPromiseWrapper(
       onSaveImage: handleSaveImage,
       onBeforePaste: handleBeforePaste,
       onAfterPaste: handleAfterPaste,
+      onFileInserted: handleFileInserted,
+      // onInsertOfficeMenuClicked: handleInsertOfficeMenuClicked, // TODO: 传入回调后，不会打开选择文件的弹窗
       onBlockFocusChanged: handleBlockFocusChanged,
       ...(_options?.callbacks || {}),
     },

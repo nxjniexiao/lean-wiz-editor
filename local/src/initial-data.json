@@ -5,7 +5,7 @@
       "type": "text",
       "text": [
         {
-          "insert": "分享"
+          "insert": "标题"
         }
       ],
       "heading": 1
@@ -13,7 +13,7 @@
     {
       "text": [
         {
-          "insert": "这是一篇分享文章"
+          "insert": "正文"
         }
       ],
       "id": "_4KUwn82T",
