@@ -53,3 +53,11 @@ createEditorPromiseWrapper(document.querySelector('#editor-2') as HTMLElement, {
 // text2Doc
 // doc2markdown
 // doc2text
+
+document.addEventListener(
+  'click',
+  (e) => {
+    console.log('click');
+  },
+  false
+);

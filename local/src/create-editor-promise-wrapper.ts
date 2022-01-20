@@ -100,6 +100,58 @@ function handleFileInserted(
   console.log(arguments);
 }
 
+function handleGetBlockCommand(
+  editor: Editor,
+  block: BlockElement,
+  detail: SelectionDetail,
+  type: 'fixed' | 'hover' | 'menu',
+  target: Node | null,
+  editorMenuData: CommandItemData[]
+): CommandItemData[] {
+  // console.log('handle get block command...');
+  // console.log(type);
+  // console.log(editorMenuData);
+  // 左侧菜单按钮
+  if (type === 'fixed') {
+    // console.log(editorMenuData); // 空数组
+  }
+  // 右键菜单
+  if (type === 'menu') {
+    // console.log(editorMenuData); // 有值
+  }
+  // 悬浮菜单
+  if (type === 'hover') {
+    // console.log(editorMenuData); // 有值
+  }
+  return [];
+}
+
+function handleBeforeUploadResource(editor: Editor, file: File) {
+  console.log('handle before upload resource...');
+  // Promise.reject()时，不会触发handleUploadResource
+  return Promise.resolve();
+}
+
+function handleUploadResource(
+  editor: Editor,
+  file: File,
+  onProgress: OnProgress
+): Promise<string> {
+  onProgress!;
+  console.log('handle upload resource...');
+  console.log(file);
+  return domUtils.fileToDataUrl(file);
+}
+
+function handleBuildResourceUrl(
+  editor: Editor,
+  resourceName: string,
+  fileName?: string
+) {
+  console.log('handle build resource url...');
+  return '';
+}
+
 function handleInsertOfficeMenuClicked(
   editor: Editor,
   block: BlockElement,
@@ -151,6 +203,10 @@ export async function createEditorPromiseWrapper(
       onBeforePaste: handleBeforePaste,
       onAfterPaste: handleAfterPaste,
       onFileInserted: handleFileInserted,
+      onGetBlockCommand: handleGetBlockCommand,
+      onBeforeUploadResource: handleBeforeUploadResource,
+      onUploadResource: handleUploadResource,
+      // onBuildResourceUrl: handleBuildResourceUrl,
       // onInsertOfficeMenuClicked: handleInsertOfficeMenuClicked, // TODO: 传入回调后，不会打开选择文件的弹窗
       onBlockFocusChanged: handleBlockFocusChanged,
       ...(_options?.callbacks || {}),
