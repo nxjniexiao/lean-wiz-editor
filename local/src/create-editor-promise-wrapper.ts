@@ -54,6 +54,9 @@ function handleSave(editor: Editor, data: any) {
 
 function handleLoad(editor: Editor, data: any) {
   console.log('handle load...');
+  const blocks = editor.getAllBlocks({ deep: true });
+  // editor.selectBlock(blocks[1], 0, 2)
+  // editor.focus();
 }
 
 function handleBlur(editor: Editor, data: any) {
@@ -111,9 +114,22 @@ function handleGetBlockCommand(
   // console.log('handle get block command...');
   // console.log(type);
   // console.log(editorMenuData);
-  // 左侧菜单按钮
+  const ret: CommandItemData[] = [];
+  // 右侧菜单按钮
   if (type === 'fixed') {
     // console.log(editorMenuData); // 空数组
+    const handleMenuItemClicked = (event: Event, item: CommandItemData) => {
+      console.log('handleMenuItemClicked: ', item);
+    };
+    ret.push({
+      id: 'test-fixed-menu',
+      text: '测试fixed菜单',
+      shortCut: '',
+      disabled: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3h7zM7 9H4V5h3v4zm10 6h3v4h-3v-4zm0-10h3v4h-3V5z"></path></svg>',
+      data: block,
+      onClick: handleMenuItemClicked,
+    });
   }
   // 右键菜单
   if (type === 'menu') {
@@ -123,7 +139,7 @@ function handleGetBlockCommand(
   if (type === 'hover') {
     // console.log(editorMenuData); // 有值
   }
-  return [];
+  return ret;
 }
 
 function handleBeforeUploadResource(editor: Editor, file: File) {
@@ -192,7 +208,7 @@ export async function createEditorPromiseWrapper(
     hideBlockMenuButton: false, // 隐藏左侧菜单按钮
     // hideBlockMenu: true, // ???
     hideBlockIcon: true, // 隐藏左侧图标
-    // allowedWebPages: [], // 允许插入的网页类型，为[]时，网页分类标签仍然显示。
+    allowedWebPages: [{ name: '网页', type: '', icon: '' }], // 允许插入的网页类型，为[]时，网页分类标签仍然显示。
     ..._options,
     callbacks: {
       onSave: handleSave,

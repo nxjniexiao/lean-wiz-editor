@@ -1121,7 +1121,7 @@ function handleMenuItemClicked(event: Event, item: CommandItemData) {
     }
     currentEditor.insertEmptyBox(PROJECT_BOX_TYPE as any);
   } else if (item.id === 'showVersion') {
-    currentEditor.showVersions();
+    currentEditor.showVersions(null);
   }
 }
 

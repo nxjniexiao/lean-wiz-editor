@@ -3,9 +3,19 @@ import { createEditorPromiseWrapper } from './create-editor-promise-wrapper';
 import { htmlString, markdownString } from './strings';
 
 // 测试数据回显
-const initLocalData = require('./initial-data.json');
+// const initLocalData = wizEditorClient.markdown2Doc(
+//   '![图片](https://www.bing.com/th?id=OHR.GrahamAdelie_ZH-CN2945763969_1920x1080.jpg&rf=LaDigue_1920x1080.jpg)'
+// );
+// const initLocalData = wizEditorClient.html2Doc(
+//   '测试1<div>测试2</div>', {}
+// );
+const initLocalData = wizEditorClient.html2Doc(
+  '测试1<br>测试2', {}
+);
+// const initLocalData = require('./initial-data.json');
 createEditorPromiseWrapper(document.querySelector('#editor-2') as HTMLElement, {
   initLocalData,
+  // readonly: true,
 });
 
 // 测试 text
@@ -54,10 +64,36 @@ createEditorPromiseWrapper(document.querySelector('#editor-2') as HTMLElement, {
 // doc2markdown
 // doc2text
 
+// useCapture: false
 document.addEventListener(
-  'click',
+  'mousedown',
   (e) => {
-    console.log('click');
+    console.log('mousedown');
   },
   false
 );
+
+// document.addEventListener(
+//   'mousemove',
+//   (e) => {
+//     console.log('mousemove');
+//   },
+//   false
+// );
+
+// useCapture: true
+document.addEventListener(
+  'mousedown',
+  (e) => {
+    console.log('mousedown true');
+  },
+  true
+);
+
+// document.addEventListener(
+//   'mousemove',
+//   (e) => {
+//     console.log('mousemove true');
+//   },
+//   true
+// );
