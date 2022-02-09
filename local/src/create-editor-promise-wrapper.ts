@@ -142,9 +142,41 @@ function handleGetBlockCommand(
   return ret;
 }
 
+function handleGetBlockToolbarOptions(
+  editor: Editor,
+  block: BlockElement,
+  detail: SelectionDetail,
+  type: 'fixed' | 'hover'
+) {
+  // console.log('handleGetBlockToolbarOptions: ', arguments);
+  const ret: CommandItemData[] = [];
+  if (type === 'fixed') {
+    ret.push({
+      id: 'handleGetBlockToolbarOptions-fixed',
+      text: 'handleGetBlockToolbarOptions-fixed',
+      shortCut: '',
+      disabled: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3h7zM7 9H4V5h3v4zm10 6h3v4h-3v-4zm0-10h3v4h-3V5z"></path></svg>',
+      data: block,
+      onClick: () => {},
+    });
+  } else if (type === 'hover') {
+    ret.push({
+      id: 'handleGetBlockToolbarOptions-hover',
+      text: 'handleGetBlockToolbarOptions-hover',
+      shortCut: '',
+      disabled: false,
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3h7zM7 9H4V5h3v4zm10 6h3v4h-3v-4zm0-10h3v4h-3V5z"></path></svg>',
+      data: block,
+      onClick: () => {},
+    });
+  }
+  return ret;
+}
+
 function handleBeforeUploadResource(editor: Editor, file: File) {
   console.log('handle before upload resource...');
-  // Promise.reject()时，不会触发handleUploadResource
+  // Promise.reject()时，不会触发handleUploadResource，但是图片依旧会被插入到文档中，且控制台报错
   return Promise.resolve();
 }
 
@@ -206,9 +238,19 @@ export async function createEditorPromiseWrapper(
     hideComments: true, // 隐藏评论
     disableMindmap: true, // 禁用 mind map
     hideBlockMenuButton: false, // 隐藏左侧菜单按钮
-    // hideBlockMenu: true, // ???
+    // hideBlockMenu: true, // 隐藏左侧菜单（点击左侧菜单按钮不会弹出菜单）
     hideBlockIcon: true, // 隐藏左侧图标
+    disableVideo: true, // 禁用视频
+    disableAudio: true, // 禁用音频
+    // disableOfficeDownload: true, // 禁用office下载
     allowedWebPages: [{ name: '网页', type: '', icon: '' }], // 允许插入的网页类型，为[]时，网页分类标签仍然显示。
+    // 触发快速插入菜单的字符
+    quickInsertMenuTrigger: {
+      '/': true,
+      '、': true,
+      '+': false,
+    },
+    disableCalendar: true, // 禁用待办事项中的日历
     ..._options,
     callbacks: {
       onSave: handleSave,
@@ -220,6 +262,7 @@ export async function createEditorPromiseWrapper(
       onAfterPaste: handleAfterPaste,
       onFileInserted: handleFileInserted,
       onGetBlockCommand: handleGetBlockCommand,
+      // onGetBlockToolbarOptions: handleGetBlockToolbarOptions, // 鼠标悬浮在block时上方(hover)和右侧(fixed)的菜单
       onBeforeUploadResource: handleBeforeUploadResource,
       onUploadResource: handleUploadResource,
       // onBuildResourceUrl: handleBuildResourceUrl,
