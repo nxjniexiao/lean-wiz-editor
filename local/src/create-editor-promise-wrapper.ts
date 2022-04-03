@@ -20,6 +20,8 @@ import {
   SelectionDetail,
   FileBoxData,
   EditorDoc,
+  EMBED_TYPE,
+  BOX_TYPE,
 } from 'wiz-editor/client';
 import * as wizEditorClient from 'wiz-editor/client';
 
@@ -85,6 +87,65 @@ function handleBeforePaste(editor: Editor, event: ClipboardEvent) {
     );
     return true; // 阻止默认行为
   }
+
+  const dataTypes = data?.types || [];
+  const isPastePlainText = dataTypes[0] === 'text/plain';
+  const isPastWizEditorContent = dataTypes.indexOf('text/wiz-editor-doc') > -1;
+  const carePos = editor.getCaretPos();
+  const block = editor.getBlockById(carePos.blockId);
+  const blockData = block && editor.getBlockData(block);
+  // 当前光标是否在代码块里
+  const isCodeLine = blockData?.type === 'code-line';
+  if (!isCodeLine && isPastePlainText && !isPastWizEditorContent) {
+    // 处理粘贴文本
+    const text = data?.getData('text') || '';
+    const blockMathReg = /^\$\$([^\$]+)\$\$(?:\r\n)?$/;
+    const inlineBlockMathReg = /\$([^\$]+)\$(?!\d)/;
+    // 处理块级公式
+    let match = text.match(blockMathReg);
+    if (match) {
+      let mathjaxText = match[1];
+      editor.insertEmbed(null, -2, EMBED_TYPE.MATHJAX, { mathjaxText });
+      return true; // 阻止默认行为
+    }
+    // 处理行内公式
+    if (inlineBlockMathReg.test(text)) {
+      const strArr = splitMarkdownByMath(text);
+      strArr.forEach((str) => {
+        const match = str.match(inlineBlockMathReg);
+        if (match) {
+          editor.insertBox(BOX_TYPE.MATH, null, { src: '', tex: match[1] });
+        } else {
+          const pos = editor.getCaretPos();
+          const currentBlock = editor.getBlockById(pos.blockId);
+          editor.insertBlockText(currentBlock!, pos.offset, str);
+        }
+      });
+      return true; // 阻止默认行为
+    }
+  }
+
+  function splitMarkdownByMath(str: string) {
+    const resArr = matchMathFromMarkdown(str);
+    return resArr.filter((str) => !!str);
+  }
+
+  function matchMathFromMarkdown(str: string, resArr?: string[]): string[] {
+    if (!resArr) resArr = [];
+    const inlineBlockMathReg = /\$([^\$]+)\$(?!\d)/g;
+    const match = inlineBlockMathReg.exec(str);
+    if (match == null) {
+      resArr.push(str);
+      return resArr;
+    }
+    const start = match?.index;
+    const end = inlineBlockMathReg.lastIndex;
+    resArr.push(str.slice(0, start));
+    resArr.push(str.slice(start, end));
+    const newStr = str.slice(end);
+    return matchMathFromMarkdown(newStr, resArr);
+  }
+
   return false;
 }
 
