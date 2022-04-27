@@ -346,3 +346,16 @@ export async function createEditorPromiseWrapper(
   const editor = createEditor(element, options, auth);
   return editor;
 }
+
+// 隐藏图片
+embedUtils.getEmbedClassByType(EMBED_TYPE.IMAGE)!.getEmbedOptions = () => ({
+  menuItems: [],
+});
+// 隐藏office
+embedUtils.getEmbedClassByType(EMBED_TYPE.OFFICE)!.getEmbedOptions = () => ({
+  menuItems: [],
+});
+// 隐藏drawio
+embedUtils.getEmbedClassByType(EMBED_TYPE.DRAWIO)!.getEmbedOptions = () => ({
+  menuItems: [],
+});
